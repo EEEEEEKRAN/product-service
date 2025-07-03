@@ -1,0 +1,36 @@
+# Fichiers de build Maven
+target/
+!target/*.jar
+!target/**/lib/
+
+# Fichiers Git
+.git
+.gitignore
+
+# Fichiers IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+
+# Documentation
+README.md
+*.md
+
+# Docker files (pas besoin dans l'image)
+Dockerfile
+docker-compose.yml
+.dockerignore

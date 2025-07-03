@@ -1,0 +1,38 @@
+# Configuration du Product Service
+server:
+  port: 8081
+  servlet:
+    context-path: /api/products
+
+spring:
+  application:
+    name: product-service
+  
+  # Configuration MongoDB
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: productdb
+      # Optionnel : authentification
+      # username: admin
+      # password: password
+      # authentication-database: admin
+
+# Configuration des logs
+logging:
+  level:
+    com.microcommerce.productservice: DEBUG
+    org.springframework.web: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Actuator endpoints pour le monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

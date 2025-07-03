@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Service MongoDB pour le product-service
+  mongodb-product:
+    image: mongo:latest
+    container_name: mongodb-product-service
+    ports:
+      - "27017:27017"  # Port standard MongoDB
+    environment:
+      MONGO_INITDB_DATABASE: productservice_db
+    volumes:
+      - mongodb_product_data:/data/db
+    networks:
+      - product-service-network
+
+  # Service produit
+  product-service:
+    build: .
+    container_name: product-service-app
+    ports:
+      - "8081:8081"
+    environment:
+      # Configuration MongoDB pour Docker
+      SPRING_DATA_MONGODB_HOST: mongodb-product
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: productservice_db
+    depends_on:
+      - mongodb-product
+    networks:
+      - product-service-network
+    # Attend que MongoDB soit prêt
+    restart: on-failure
+
+volumes:
+  mongodb_product_data:
+
+networks:
+  product-service-network:
+    driver: bridge
