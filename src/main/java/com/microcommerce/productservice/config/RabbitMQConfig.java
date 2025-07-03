@@ -35,6 +35,52 @@ public class RabbitMQConfig {
     public TopicExchange productExchange() {
         return new TopicExchange(PRODUCT_EXCHANGE);
     }
+    
+    // Configuration pour écouter les événements commandes
+    public static final String ORDER_EXCHANGE = "order.exchange";
+    public static final String ORDER_ALL_ROUTING_KEY = "order.*";
+    public static final String PRODUCT_SERVICE_ORDER_QUEUE = "product-service.order.queue";
+    
+    @Bean
+    public TopicExchange orderExchange() {
+        return new TopicExchange(ORDER_EXCHANGE);
+    }
+    
+    @Bean
+    public Queue productServiceOrderQueue() {
+        return new Queue(PRODUCT_SERVICE_ORDER_QUEUE, true);
+    }
+    
+    @Bean
+    public Binding productServiceOrderBinding() {
+        return BindingBuilder
+            .bind(productServiceOrderQueue())
+            .to(orderExchange())
+            .with(ORDER_ALL_ROUTING_KEY);
+    }
+    
+    // Configuration pour écouter les événements utilisateurs
+    public static final String USER_EXCHANGE = "user.exchange";
+    public static final String USER_ALL_ROUTING_KEY = "user.*";
+    public static final String PRODUCT_SERVICE_USER_QUEUE = "product-service.user.queue";
+    
+    @Bean
+    public TopicExchange userExchange() {
+        return new TopicExchange(USER_EXCHANGE);
+    }
+    
+    @Bean
+    public Queue productServiceUserQueue() {
+        return new Queue(PRODUCT_SERVICE_USER_QUEUE, true);
+    }
+    
+    @Bean
+    public Binding productServiceUserBinding() {
+        return BindingBuilder
+            .bind(productServiceUserQueue())
+            .to(userExchange())
+            .with(USER_ALL_ROUTING_KEY);
+    }
 
     /**
      * Queue pour les événements de création de produit
