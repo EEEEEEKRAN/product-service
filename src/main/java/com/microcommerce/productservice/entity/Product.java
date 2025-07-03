@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 /**
- * Entité Product - représente un produit dans notre catalogue MongoDB
- * Rien de bien sorcier, juste les infos de base d'un produit
+ * Notre entité Product - c'est ça qui représente un produit dans MongoDB
+ * Bon, c'est pas sorcier, juste les trucs de base qu'on a besoin pour un produit
  */
 @Document(collection = "products")
 public class Product {
@@ -35,9 +35,9 @@ public class Product {
     @Indexed
     private String category;
     
-    // Constructeurs
+    // Constructeurs - parce que Spring en a besoin
     public Product() {
-        // Constructeur par défaut pour JPA
+        // Constructeur vide pour que JPA/MongoDB soit content
     }
     
     public Product(String name, String description, BigDecimal price, Integer stock, String category) {
@@ -50,7 +50,7 @@ public class Product {
     
 
     
-    // Getters et Setters
+    // Getters et Setters - le classique, rien d'extraordinaire fréro
     public String getId() {
         return id;
     }

@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controller REST pour la gestion des produits
- * Toutes les APIs pour créer, lire, modifier, supprimer des produits
+ * Notre controller REST pour gérer les produits
+ * Tout ce qu'il faut pour faire du CRUD sur nos produits, rien de plus
  */
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*") // Pour les tests depuis le front
+@CrossOrigin(origins = "*") // On autorise tout le monde pour les tests, à changer en prod !
 public class ProductController {
     
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -30,7 +30,7 @@ public class ProductController {
     private ProductService productService;
     
     /**
-     * GET / - Récupérer tous les produits
+     * GET / - Récupère tous les produits qu'on a en base
      */
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
@@ -40,7 +40,7 @@ public class ProductController {
     }
     
     /**
-     * GET /{id} - Récupérer un produit par son ID
+     * GET /{id} - Chope un produit spécifique par son ID
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
@@ -51,7 +51,7 @@ public class ProductController {
     }
     
     /**
-     * POST / - Créer un nouveau produit
+     * POST / - Crée un nouveau produit dans notre catalogue
      */
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
@@ -66,7 +66,7 @@ public class ProductController {
     }
     
     /**
-     * PUT /{id} - Mettre à jour un produit
+     * PUT /{id} - Met à jour un produit existant
      */
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable String id, @Valid @RequestBody Product productDetails) {
@@ -84,7 +84,7 @@ public class ProductController {
     }
     
     /**
-     * DELETE /{id} - Supprimer un produit
+     * DELETE /{id} - Supprime un produit (bye bye !)
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable String id) {
@@ -99,7 +99,7 @@ public class ProductController {
     }
     
     /**
-     * GET /search?name={name} - Rechercher des produits par nom
+     * GET /search?name={name} - Recherche des produits par nom ou mot-clé
      */
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProducts(
@@ -120,7 +120,7 @@ public class ProductController {
     }
     
     /**
-     * GET /category/{category} - Récupérer les produits par catégorie
+     * GET /category/{category} - Tous les produits d'une catégorie donnée
      */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
@@ -130,7 +130,7 @@ public class ProductController {
     }
     
     /**
-     * GET /price-range?min={min}&max={max} - Produits dans une fourchette de prix
+     * GET /price-range?min={min}&max={max} - Produits dans une fourchette de prix (pratique nan ?)
      */
     @GetMapping("/price-range")
     public ResponseEntity<List<Product>> getProductsByPriceRange(
@@ -142,7 +142,7 @@ public class ProductController {
     }
     
     /**
-     * GET /available - Récupérer les produits en stock
+     * GET /available - Seulement les produits qu'on a encore en stock
      */
     @GetMapping("/available")
     public ResponseEntity<List<Product>> getAvailableProducts() {
@@ -152,7 +152,7 @@ public class ProductController {
     }
     
     /**
-     * GET /low-stock?threshold={threshold} - Produits avec stock faible
+     * GET /low-stock?threshold={threshold} - Produits qui commencent à manquer
      */
     @GetMapping("/low-stock")
     public ResponseEntity<List<Product>> getLowStockProducts(
@@ -163,7 +163,7 @@ public class ProductController {
     }
     
     /**
-     * PATCH /{id}/stock - Mettre à jour uniquement le stock
+     * PATCH /{id}/stock - Met à jour juste le stock d'un produit
      */
     @PatchMapping("/{id}/stock")
     public ResponseEntity<?> updateStock(@PathVariable String id, @RequestBody Map<String, Integer> stockUpdate) {
@@ -183,8 +183,8 @@ public class ProductController {
     }
     
     /**
-     * GET /internal/{id} - Endpoint interne pour la communication inter-services
-     * Retourne les infos essentielles d'un produit (optimisé pour les appels entre services)
+     * GET /internal/{id} - Endpoint interne pour les autres services
+     * Retourne juste les infos essentielles (optimisé pour les appels entre microservices)
      */
     @GetMapping("/internal/{id}")
     public ResponseEntity<ProductInfoDto> getProductInfoForService(@PathVariable String id) {
